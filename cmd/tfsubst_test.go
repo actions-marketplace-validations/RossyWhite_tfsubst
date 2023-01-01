@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"context"
 	"github.com/stretchr/testify/assert"
-	"path/filepath"
 	"strings"
 	"testing"
 )
@@ -34,11 +33,10 @@ func TestTfSubst(t *testing.T) {
 	for name, tt := range tests {
 		t.Run(name, func(t *testing.T) {
 			c := &tfsubst{}
-			staticLoc, _ := filepath.Abs(tt.stateLoc)
 			in := strings.NewReader(tt.inputData)
 
 			var out bytes.Buffer
-			err := c.execute(context.Background(), staticLoc, in, &out, tt.funcName)
+			err := c.execute(context.Background(), tt.stateLoc, in, &out, tt.funcName)
 
 			if tt.error {
 				assert.Error(t, err)
