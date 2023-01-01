@@ -5,9 +5,18 @@ import (
 	"fmt"
 	"github.com/fujiwara/tfstate-lookup/tfstate"
 	"github.com/spf13/cobra"
+	"io"
 	"os"
 	"text/template"
 )
+
+func Execute() {
+	err := tfsubstCmd.Execute()
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+}
 
 var (
 	stateLoc   string
@@ -17,46 +26,61 @@ var (
 	tfsubstCmd = &cobra.Command{
 		Use: "tfsubst",
 		RunE: func(cmd *cobra.Command, args []string) error {
+			c := &tfsubst{}
 			ctx := context.Background()
-			funcMap, err := tfstate.FuncMapWithName(ctx, funcName, stateLoc)
-			if err != nil {
-				return err
-			}
+			var in, out *os.File
 
 			if inputFile == "" {
-				inputFile = os.Stdin.Name()
-			}
-
-			b, err := os.ReadFile(inputFile)
-			if err != nil {
-				return err
-			}
-
-			var out *os.File
-			if outputFile == "" {
-				out = os.Stdout
+				in = os.Stdin
 			} else {
-				out, err = os.Create(outputFile)
+				f, err := os.Open(inputFile)
 				if err != nil {
 					return err
 				}
+				defer func() { _ = f.Close() }()
+				in = f
 			}
 
-			t, err := template.New("file").Funcs(funcMap).Parse(string(b))
-			if err = t.Execute(out, nil); err != nil {
-				return err
+			if outputFile == "" {
+				out = os.Stdout
+			} else {
+				f, err := os.Create(outputFile)
+				if err != nil {
+					return err
+				}
+				defer func() { _ = f.Close() }()
+				out = f
 			}
-			return nil
+
+			return c.execute(ctx, stateLoc, in, out, funcName)
 		},
 	}
 )
 
-func Execute() {
-	err := tfsubstCmd.Execute()
+type tfsubst struct{}
+
+func (c *tfsubst) execute(
+	ctx context.Context,
+	stateLoc string,
+	in io.Reader,
+	out io.Writer,
+	funcName string) error {
+
+	funcMap, err := tfstate.FuncMapWithName(ctx, funcName, stateLoc)
 	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
+		return err
 	}
+
+	b, err := io.ReadAll(in)
+	if err != nil {
+		return err
+	}
+
+	t, err := template.New("file").Funcs(funcMap).Parse(string(b))
+	if err = t.Execute(out, nil); err != nil {
+		return err
+	}
+	return nil
 }
 
 func init() {
