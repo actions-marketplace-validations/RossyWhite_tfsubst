@@ -84,7 +84,7 @@ func (c *tfsubst) execute(
 }
 
 func init() {
-	tfsubstCmd.Flags().StringVarP(&stateLoc, "state", "s", "", "tfstate file path or URL")
+	tfsubstCmd.Flags().StringVarP(&stateLoc, "state", "s", "", "local tfstate file path or remote URL")
 	tfsubstCmd.Flags().StringVarP(&inputFile, "input", "i", "", "specify file input, otherwise use stdin")
 	tfsubstCmd.Flags().StringVarP(&outputFile, "output", "o", "", "specify file output, otherwise use stdout")
 	tfsubstCmd.Flags().StringVar(&funcName, "func-name", "tfstate", "func name to use in template")
