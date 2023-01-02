@@ -24,6 +24,3 @@ archives:
     format_overrides:
       - goos: windows
         format: zip
-
-changelog:
-  use: github-native
