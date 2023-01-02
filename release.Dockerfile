@@ -1,5 +1,5 @@
-FROM golang:1.19.4
+FROM scratch
 
-COPY tfsubst /usr/local/bin/tfsubst
+COPY tfsubst /tfsubst
 
-ENTRYPOINT ["tfsubst"]
+ENTRYPOINT ["/tfsubst"]

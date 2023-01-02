@@ -11,18 +11,17 @@ builds:
       - -X main.version={{.Version}}
     goos:
       - linux
-      - windows
       - darwin
 dockers:
   - dockerfile: release.Dockerfile
     image_templates:
-      - "ghcr.io/rossywhite/tfsubst/tfsubst:{{ .Tag }}"
-      - "ghcr.io/rossywhite/tfsubst/tfsubst:latest"
+      - "ghcr.io/rossywhite/tfsubst:{{ .Tag }}"
+      - "ghcr.io/rossywhite/tfsubst:latest"
 
 archives:
   - name_template: >-
       {{ .ProjectName }}_
-      {{- title .Os }}_
+      {{- tolower .Os }}_
       {{- if eq .Arch "amd64" }}x86_64
       {{- else if eq .Arch "386" }}i386
       {{- else }}{{ .Arch }}{{ end }}
