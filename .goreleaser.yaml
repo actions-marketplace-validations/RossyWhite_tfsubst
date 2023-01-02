@@ -16,8 +16,8 @@ builds:
 dockers:
   - dockerfile: release.Dockerfile
     image_templates:
-      - "ghcr.io/rossywhite/tfsubst/tfsubst:{{ .Tag }}"
-      - "ghcr.io/rossywhite/tfsubst/tfsubst:latest"
+      - "ghcr.io/rossywhite/tfsubst:{{ .Tag }}"
+      - "ghcr.io/rossywhite/tfsubst:latest"
 
 archives:
   - name_template: >-
