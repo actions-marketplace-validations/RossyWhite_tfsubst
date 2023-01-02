@@ -13,6 +13,11 @@ builds:
       - linux
       - windows
       - darwin
+dockers:
+  - dockerfile: release.Dockerfile
+    image_templates:
+      - "ghcr.io/rossywhite/tfsubst/tfsubst:{{ .Tag }}"
+      - "ghcr.io/rossywhite/tfsubst/tfsubst:latest"
 
 archives:
   - name_template: >-
