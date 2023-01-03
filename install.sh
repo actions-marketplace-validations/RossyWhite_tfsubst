@@ -54,12 +54,19 @@ if [ -z "$version" ]; then
   version="latest"
 fi
 
-asset_id=$(curl -sSf https://"$GITHUB_TOKEN"@api.github.com/repos/"${owner}"/"${repo}"/releases/"${version}" | jq -r ".assets[] | select(.name == \"${file_name}\") | .id")
+asset_id=$(curl \
+  -H "Accept: application/vnd.github+json" \
+  -H "Authorization: Bearer ${GITHUB_TOKEN}"\
+  -H "X-GitHub-Api-Version: 2022-11-28" \
+  -sSf https://api.github.com/repos/"${owner}"/"${repo}"/releases/"${version}" \
+  | jq -r ".assets[] | select(.name == \"${file_name}\") | .id")
 
 echo "[1/3] Downloading ${file_name}"
 rm -f "${downloaded_file}"
 curl -fsSL -H "Accept: application/octet-stream" \
-  https://"$GITHUB_TOKEN"@api.github.com/repos/"${owner}"/"${repo}"/releases/assets/"${asset_id}" \
+  -H "Authorization: Bearer ${GITHUB_TOKEN}"\
+  -H "X-GitHub-Api-Version: 2022-11-28" \
+  https://api.github.com/repos/"${owner}"/"${repo}"/releases/assets/"${asset_id}" \
   -o "${downloaded_file}"
 
 echo "[2/3] Install ${exe_name} to the ${executable_folder}"
