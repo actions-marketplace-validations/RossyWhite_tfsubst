@@ -19,7 +19,10 @@ func Execute() {
 }
 
 var (
-	version    = "dev"
+	version = "dev"
+)
+
+var (
 	stateLoc   string
 	inputFile  string
 	outputFile string
