@@ -1,0 +1,26 @@
+name: "tfsubst action"
+author: "RossyWhite"
+description: "Substitute variables with tfstate values"
+inputs:
+  input:
+    description: 'File to run substitutions on'
+    required: true
+  output:
+    description: 'File to write result to'
+    required: true
+  tfstate:
+    description: 'Path to tfstate file'
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: "Install tfsubst"
+      run: |
+        curl -sfL https://raw.githubusercontent.com/RossyWhite/tfsubst/main/install.sh | sh
+      shell: bash
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+    - name: "Run tfsubst"
+      run: |
+        tfsubst < ${{ inputs.input }} -s ${{ inputs.tfstate }} > ${{ inputs.output }}
+      shell: bash
