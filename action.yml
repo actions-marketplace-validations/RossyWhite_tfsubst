@@ -18,8 +18,6 @@ runs:
       run: |
         curl -sfL https://raw.githubusercontent.com/RossyWhite/tfsubst/main/install.sh | sh
       shell: bash
-      env:
-        GITHUB_TOKEN: ${{ github.token }}
     - name: "Run tfsubst"
       run: |
         tfsubst < ${{ inputs.input }} -s ${{ inputs.tfstate }} > ${{ inputs.output }}
