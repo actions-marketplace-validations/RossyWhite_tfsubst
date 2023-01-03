@@ -43,3 +43,9 @@ Download the binary from [GitHub Releases](https://github.com/RossyWhite/tfsubst
 ```shell
 $ go install github.com/RossyWhite/tfsubst
 ```
+
+### Docker
+
+```shell
+$ docker pull ghcr.io/rossywhite/tfsubst:latest
+```
