@@ -17,6 +17,8 @@ dockers:
     image_templates:
       - "ghcr.io/rossywhite/tfsubst:{{ .Tag }}"
       - "ghcr.io/rossywhite/tfsubst:latest"
+    build_flag_templates:
+      - "--label=org.opencontainers.image.source=https://github.com/RossyWhite/tfsubst"
 
 archives:
   - name_template: >-
