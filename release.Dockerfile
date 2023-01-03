@@ -1,5 +1,5 @@
-FROM scratch
+FROM bash
 
-COPY tfsubst /tfsubst
+COPY tfsubst /usr/local/bintfsubst
 
-ENTRYPOINT ["/tfsubst"]
+ENTRYPOINT ["tfsubst"]
