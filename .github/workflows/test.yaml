@@ -29,7 +29,18 @@ jobs:
             ${{ runner.os }}-go-
       - name: test
         run: go test -race -cover ./...
-      - name: install test
-        run: ./install.sh
+
+      - name: prepare install test
+        run: |
+          echo 'image: {{ tfstate "docker_image.ubuntu.name" }}' > input.yaml
+      - name: run composite action
+        uses: ./
+        with:
+          input: input.yaml
+          output: output.yaml
+          tfstate: cmd/testdata/terraform.tfstate
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: test output
+        run: |
+          diff output.yaml <(echo "image: ubuntu:latest")
