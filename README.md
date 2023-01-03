@@ -36,7 +36,12 @@ value: your_parameter_value
 
 ### From binary
 
-Download the binary from [GitHub Releases](https://github.com/RossyWhite/tfsubst/releases) and drop it in your `$PATH`.
+Download the binary from [GitHub Releases](https://github.com/RossyWhite/tfsubst/releases) and drop it in your `$PATH`.  
+Or one-liner installation command is below.(`jq` is required)
+
+```bash
+$ curl -sfL https://raw.githubusercontent.com/RossyWhite/tfsubst/main/install.sh | sh
+```
 
 ### With Go
 
@@ -48,4 +53,15 @@ $ go install github.com/RossyWhite/tfsubst
 
 ```shell
 $ docker pull ghcr.io/rossywhite/tfsubst:latest
+```
+
+## Use in GitHub Actions
+
+```yaml
+- name: run tfsubst
+  uses: RossyWhite/tfsubst@v0.0.4
+  with:
+    input: <your input file path>
+    output: <your output file path>
+    tfstate: <your tfstate file path>
 ```
