@@ -46,7 +46,7 @@ $ curl -sfL https://raw.githubusercontent.com/RossyWhite/tfsubst/main/install.sh
 ### With Go
 
 ```shell
-$ go install github.com/RossyWhite/tfsubst
+$ go install github.com/rossywhite/tfsubst@latest
 ```
 
 ### Docker
