@@ -19,12 +19,14 @@ func Execute() {
 }
 
 var (
+	version    = "dev"
 	stateLoc   string
 	inputFile  string
 	outputFile string
 	funcName   string
 	tfsubstCmd = &cobra.Command{
-		Use: "tfsubst",
+		Use:     "tfsubst",
+		Version: version,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			c := &tfsubst{}
 			ctx := context.Background()
