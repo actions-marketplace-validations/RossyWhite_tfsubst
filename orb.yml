@@ -1,0 +1,38 @@
+version: 2.1
+description: |
+  Install and configure tfsubst command
+display:
+  home_url: https://github.com/RossyWhite/tfsubst
+  source_url: https://github.com/RossyWhite/tfsubst
+commands:
+  setup:
+    description: |
+      Install and configure tfsubst command.
+    steps:
+      - run:
+          name: Install tfsubst
+          command: |
+            curl -sfL https://raw.githubusercontent.com/RossyWhite/tfsubst/main/install.sh | sudo sh
+executors:
+  default:
+    docker:
+      - image: cimg/deploy:2022.11
+examples:
+  example:
+    description: |
+      Install tfsubst on your environment.
+    usage:
+      version: "2.1"
+      orbs:
+        tfsubst: rossywhite/tfsubst@0.0.5
+      jobs:
+        setup-tfsubst:
+          executor: tfsubst/default
+          steps:
+            - checkout
+            - tfsubst/setup
+      workflows:
+        use-my-orb:
+          jobs:
+            - setup-tfsubst
+
